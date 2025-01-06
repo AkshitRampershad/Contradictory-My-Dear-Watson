@@ -1,4 +1,4 @@
-## Contradictory, My Dear Watson
+## Contradictory, My Dear Watson - Multi-lingual Text Analysis
 
 This project explores Natural Language Inference (NLI), a fundamental task in Natural Language Processing (NLP), focusing on determining logical relationships (entailment, contradiction, or neutrality) between pairs of sentences across multiple languages. The work was developed as part of the "Contradictory, My Dear Watson" Kaggle competition, where our ensemble approach achieved a top-tier performance, securing 6th place out of 64 teams.
 
