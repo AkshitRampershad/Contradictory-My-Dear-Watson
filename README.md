@@ -1,40 +1,58 @@
-## Contradictory, My Dear Watson - Multi-lingual Text Analysis
+# Contradictory, My Dear Watson — Multi-lingual Text Analysis
 
-This project explores Natural Language Inference (NLI), a fundamental task in Natural Language Processing (NLP), focusing on determining logical relationships (entailment, contradiction, or neutrality) between pairs of sentences across multiple languages. The work was developed as part of the "Contradictory, My Dear Watson" Kaggle competition, where our ensemble approach achieved a top-tier performance, securing 6th place out of 64 teams.
+This project explores Natural Language Inference (NLI), a fundamental NLP task focused on determining the logical relationship — entailment, contradiction, or neutrality — between pairs of sentences across multiple languages. It was developed for the ["Contradictory, My Dear Watson"](https://www.kaggle.com/competitions/contradictory-my-dear-watson) Kaggle competition (held within the University of South Florida), where our ensemble approach placed **6th out of 64 teams** with a **90.06% test accuracy**.
 
 ## Project Objectives
-Multilingual NLI Modeling: Develop robust NLI models capable of handling text in 15 languages, including English, Spanish, Hindi, and Russian.
-Performance Optimization: Improve accuracy through model fine-tuning, custom architectures, and ensemble strategies.
-Practical Applications: Create models applicable to real-world scenarios like chatbots, sentiment analysis, fake news detection, and fact-checking.
+- **Multilingual NLI Modeling**: Develop robust NLI models capable of handling text in 15 languages, including English, Spanish, Hindi, and Russian.
+- **Performance Optimization**: Improve accuracy through model fine-tuning, custom architectures, and ensemble strategies.
+- **Practical Applications**: Build models applicable to real-world scenarios like chatbots, sentiment analysis, fake news detection, and fact-checking.
 
 ## Dataset
-The dataset includes over 12,000 premise-hypothesis sentence pairs with balanced labels (entailment, neutral, contradiction). The data spans diverse languages, making it ideal for testing cross-lingual NLI models.
+Over 12,000 premise-hypothesis sentence pairs with balanced labels (entailment, neutral, contradiction), spanning 15 languages — well suited for testing cross-lingual NLI models.
 
 ## Methodology
-Data Preprocessing
-Text cleaning and normalization.
-Tokenization using language-specific embeddings.
-Analysis of text length distributions and label balance.
+- **Data preprocessing**: text cleaning and normalization, tokenization using language-specific embeddings, analysis of text length distributions and label balance.
+- **Model progression**: baseline transformer models, evaluated and iterated on, culminating in an ensemble of fine-tuned models.
+- **Ensemble learning**: stacking, averaging, and L2 regularization across multiple XLM-RoBERTa models (including a bidirectional-LSTM variant) trained on SNLI, MNLI, ANLI, and XNLI.
 
 ## Models Explored
-RoBERTa: Baseline model achieving 63.04% accuracy.
-Multilingual BERT (mBERT): Improved performance with 65.72% accuracy.
-XLM-RoBERTa: A cross-lingual model yielding 68.81% accuracy.
-Fine-Tuned XLM-RoBERTa: Custom architecture and dropout regularization pushed accuracy to 70.26%.
-Ensemble Models: Techniques like stacking, averaging, and L2 regularization achieved a peak test accuracy of 90.06%.
+| Model | Test Accuracy |
+| --- | --- |
+| RoBERTa (baseline) | 63.04% |
+| Multilingual BERT (mBERT) | 65.72% |
+| XLM-RoBERTa | 68.81% |
+| Fine-tuned XLM-RoBERTa (custom architecture + dropout regularization) | 70.26% |
+| **Ensemble** (stacking + averaging + L2 regularization) | **90.06%** |
 
 ## Key Features
-Layer-wise Fine-Tuning: Enhanced model optimization.
-Ensemble Learning: Combined strengths of individual models using advanced strategies.
-Custom Architectures: Designed to maximize accuracy and robustness.
+- **Layer-wise fine-tuning** for enhanced model optimization
+- **Ensemble learning** combining the strengths of individual models via stacking and averaging
+- **Custom architectures** designed to maximize accuracy and robustness across languages
 
 ## Results
-Our ensemble approach with XLM-RoBERTa trained on diverse datasets (SNLI, MNLI, ANLI, XNLI) demonstrated superior performance, showcasing the value of combining multiple models for improved predictions.
+The final ensemble of XLM-RoBERTa models, trained across SNLI, MNLI, ANLI, and XNLI datasets, delivered the strongest performance — demonstrating that combining multiple fine-tuned models substantially outperforms any single model on cross-lingual NLI.
 
-## Final Metrics:
-Test Accuracy: 90.06%
-Ranked 6th in the Kaggle competition helded within the University of South Florida. 
-Insights and Future Work
-Challenges: Addressing multilingual text and handling offensive language in datasets.
-Learnings: Ensemble methods significantly enhance accuracy in NLI tasks.
-Recommendations: Explore advanced fine-tuning, data augmentation, and techniques for profanity handling.
+- **Test Accuracy**: 90.06%
+- **Ranking**: 6th of 64 teams in the Kaggle competition
+
+## Insights & Future Work
+- **Challenges**: handling multilingual text consistently and filtering offensive language in the datasets.
+- **Learnings**: ensemble methods significantly enhance accuracy on NLI tasks.
+- **Recommendations**: explore further fine-tuning strategies, data augmentation, and dedicated profanity handling.
+
+## Repository Contents
+| File | Description |
+| --- | --- |
+| [`NLP_Watson_FinalProject.ipynb`](NLP_Watson_FinalProject.ipynb) | Full notebook: preprocessing, baseline models, fine-tuning, and ensembling |
+| [`Contradictory, My Dear Watson_Final_Report_Group5.pdf`](Contradictory,%20My%20Dear%20Watson_Final_Report_Group5.pdf) | Written project report |
+
+## Running the Notebook
+The notebook was built for Google Colab and expects the Kaggle competition's `train.csv`/`test.csv` to be uploaded at runtime (via `google.colab.files.upload()`). To run it:
+1. Open `NLP_Watson_FinalProject.ipynb` in [Google Colab](https://colab.research.google.com/).
+2. Download the train/test CSVs from the [Kaggle competition data page](https://www.kaggle.com/competitions/contradictory-my-dear-watson/data).
+3. Run the notebook cells in order, uploading the CSVs when prompted.
+
+Core dependencies: `tensorflow`, `transformers`, `pandas`, `numpy`, `scikit-learn`, `matplotlib`.
+
+## License
+Released under the [MIT License](LICENSE).
