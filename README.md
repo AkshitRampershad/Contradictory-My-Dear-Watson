@@ -40,11 +40,36 @@ The final ensemble of XLM-RoBERTa models, trained across SNLI, MNLI, ANLI, and X
 - **Learnings**: ensemble methods significantly enhance accuracy on NLI tasks.
 - **Recommendations**: explore further fine-tuning strategies, data augmentation, and dedicated profanity handling.
 
+## Live Dashboard: Claim Consistency Checker
+
+Alongside the notebook above, this repo also includes a **dynamic business dashboard** built on the same NLI task: a fact-checking tool that checks whether a new claim contradicts a set of reference statements (e.g. policy text, prior responses, documentation) — directly matching this project's stated "fact-checking" practical application.
+
+**Important distinction:** the dashboard does **not** reproduce the 90.06% ensemble above. That result required a GPU and the real ~12,000-pair Kaggle dataset. The dashboard was built in an environment with neither (no GPU, no network access to Kaggle or HuggingFace), so it uses a much lighter, fully offline model instead:
+
+| | The notebook above | The dashboard (`app.py`) |
+| --- | --- | --- |
+| Model | Ensemble of fine-tuned XLM-RoBERTa transformers | TF-IDF + handcrafted lexical features (word overlap, length ratio, negation) into logistic regression / random forest |
+| Training data | ~12,000 real pairs, 15 languages (SNLI/MNLI/ANLI/XNLI-derived) | ~195 hand-curated pairs, 5 languages, written specifically for this offline demo (see `data/nli_examples.py`) — not scraped or a subset of the real Kaggle data |
+| Compute | GPU, Google Colab | CPU, runs anywhere in seconds |
+| Test accuracy | **90.06%** | Whatever it actually measures on held-out data — comfortably above the ~33% random-guess baseline for 3-class NLI, nowhere near 90.06% |
+| Purpose | The real competition benchmark | An interactive, zero-infrastructure companion demonstrating the same task live |
+
+### What's in the dashboard
+- **Overview** — dataset composition, and a real comparison of candidate models by held-out test accuracy.
+- **Claim Consistency Checker** — the main tool: paste reference statements and a new claim, get every reference scored against it with any contradictions flagged.
+- **Try a Single Pair** — a simple premise/hypothesis playground.
+- **Model Insights** — confusion matrix, feature importance (do the handcrafted lexical features actually rank highly? — check for yourself), and per-language accuracy, with an explicit small-sample caveat given the dataset's size.
+
 ## Repository Contents
 | File | Description |
 | --- | --- |
-| [`NLP_Watson_FinalProject.ipynb`](NLP_Watson_FinalProject.ipynb) | Full notebook: preprocessing, baseline models, fine-tuning, and ensembling |
+| [`NLP_Watson_FinalProject.ipynb`](NLP_Watson_FinalProject.ipynb) | Full notebook: preprocessing, baseline models, fine-tuning, and ensembling (the real 90.06% result) |
 | [`Contradictory, My Dear Watson_Final_Report_Group5.pdf`](Contradictory,%20My%20Dear%20Watson_Final_Report_Group5.pdf) | Written project report |
+| `app.py` | The Claim Consistency Checker dashboard |
+| `data/nli_examples.py` | Hand-curated multilingual NLI dataset for the dashboard |
+| `analytics/nli_model.py` | Trains and selects the classical-ML NLI classifier |
+| `analytics/consistency_checker.py` | Checks a claim against reference statements, flags contradictions |
+| `tests/` | Pytest suite for the dataset, model, and consistency checker |
 
 ## Running the Notebook
 The notebook was built for Google Colab and expects the Kaggle competition's `train.csv`/`test.csv` to be uploaded at runtime (via `google.colab.files.upload()`). To run it:
@@ -53,6 +78,20 @@ The notebook was built for Google Colab and expects the Kaggle competition's `tr
 3. Run the notebook cells in order, uploading the CSVs when prompted.
 
 Core dependencies: `tensorflow`, `transformers`, `pandas`, `numpy`, `scikit-learn`, `matplotlib`.
+
+## Running the Dashboard
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+Opens at `http://localhost:8501`. No API keys or external data needed — the dataset and model are generated/trained on first load (cached after that).
+
+Run the tests: `pytest -q`
+
+### Deploying to Streamlit Community Cloud
+1. Push this repo to GitHub (already done if you're reading this from the deployed app's source).
+2. At [share.streamlit.io](https://share.streamlit.io), create a new app pointing at this repo, branch `main`, with `app.py` as the main file path.
+3. Deploy — no secrets needed.
 
 ## License
 Released under the [MIT License](LICENSE).

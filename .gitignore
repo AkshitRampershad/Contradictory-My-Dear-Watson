@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Generated at runtime by model training - not committed, so every
+# clone regenerates a fresh copy on demand.
+models/
+
+.DS_Store
