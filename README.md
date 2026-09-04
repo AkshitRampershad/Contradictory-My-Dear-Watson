@@ -79,19 +79,5 @@ The notebook was built for Google Colab and expects the Kaggle competition's `tr
 
 Core dependencies: `tensorflow`, `transformers`, `pandas`, `numpy`, `scikit-learn`, `matplotlib`.
 
-## Running the Dashboard
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
-Opens at `http://localhost:8501`. No API keys or external data needed — the dataset and model are generated/trained on first load (cached after that).
-
-Run the tests: `pytest -q`
-
-### Deploying to Streamlit Community Cloud
-1. Push this repo to GitHub (already done if you're reading this from the deployed app's source).
-2. At [share.streamlit.io](https://share.streamlit.io), create a new app pointing at this repo, branch `main`, with `app.py` as the main file path.
-3. Deploy — no secrets needed.
-
 ## License
 Released under the [MIT License](LICENSE).
